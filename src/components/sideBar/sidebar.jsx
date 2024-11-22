@@ -68,7 +68,7 @@ const Sidebar = forwardRef(({showNav, setShowNav, slug}, ref, searchParams) => {
         ,     
         {
           title: "Reports",
-          path: `/dashboard/${slug}/reports`,
+          path: `#`,
           icon: <MdShoppingBag />,
         }    
         ,     
