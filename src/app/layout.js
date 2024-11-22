@@ -1,5 +1,18 @@
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import '@radix-ui/themes/styles.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { Theme } from '@radix-ui/themes';
+import GlobalState from "@/context";
+import { CartProvider } from "@/context/CartContext";
+import { ToastContainer } from "react-toastify";
+import { Suspense } from "react";
+// import Loading from "./loading";
+
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,12 +32,23 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
+    
     <html lang="en">
+      <>
+      
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
-      </body>
+      <GlobalState>
+        <CartProvider>
+          <ToastContainer position="bottom-right"/>
+      <Theme>
+      {children}
+        </Theme>
+       </CartProvider>
+        </GlobalState>
+        </body>
+      </>
     </html>
   );
 }
