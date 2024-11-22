@@ -15,10 +15,10 @@ const PaymentPage=({slug, orderRcpt, cart, lab, pathname})=>{
     const [payment, setPayment]= useState([])
     const [state, formAction, isPending] = useFormState(addPayment, {});
 
-    const getPayment = async()=>{
-      const pay = await fetchPaymentByOrder(orderRcpt[0]?._id)
-      await setPayment(pay)
-    }
+    // const getPayment = async()=>{
+    //   const pay = await fetchPaymentByOrder(orderRcpt[0]?._id)
+    //   await setPayment(pay)
+    // }
 
     useEffect(()=>{
         const getState=async()=>{
