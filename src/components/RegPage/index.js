@@ -88,7 +88,6 @@ useEffect(()=>{
     </div>
         </TabsContent>
         <TabsContent value="payment">
-  const lab= await fetchLabSlug(slug)
   <PaymentPage slug={slug} orderRcpt={orderRcpt} cart={sales} lab={lab} pathname={pathname}/>
          
         </TabsContent>
