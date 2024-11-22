@@ -62,11 +62,11 @@ const PaymentPage=({slug, orderRcpt, cart, lab, pathname})=>{
           </div>
 
                 <input type="hidden" name="slug" value={slug} />
-                <input type="hidden" name="patient" value={orderRcpt[0].patientId} />
-                <input type="hidden" name="order" value={orderRcpt[0]._id} />
-                <input type="hidden" name="orderNo" value={orderRcpt[0].orderNum} />
+                <input type="hidden" name="patient" value={orderRcpt[0]?.patientId} />
+                <input type="hidden" name="order" value={orderRcpt[0]?._id} />
+                <input type="hidden" name="orderNo" value={orderRcpt[0]?.orderNum} />
                 <input type="hidden" name="testAmount" value={cartTotal} />
-                <input type="hidden" name="user" value={orderRcpt[0].user} />
+                <input type="hidden" name="user" value={orderRcpt[0]?.user} />
                 <input type="hidden" name="path" value={pathname} />
                 <button  className="p-2 w-full mt-2 bg-green-600 text-white font-bold rounded-bg">
                Make Payment
