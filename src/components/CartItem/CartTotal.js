@@ -21,6 +21,7 @@ useEffect(()=>{
   const getPayment= async()=>{
  
    const Payments = await fetchPaymentByOrder(order[0]?._id)
+   console.log('p', Payments)
    let allPayments=[]
     allPayments =  Payments.map((i) => i.amountPaid)  
        const paymentt = allPayments.reduce((acc, item) => 
@@ -48,7 +49,6 @@ useEffect(() => {
     
             setTotal(amtTotal)
             
-            console.log(CartTotal)
       }   
 
     }

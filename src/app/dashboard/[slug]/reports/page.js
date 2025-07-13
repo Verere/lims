@@ -2,7 +2,7 @@ import ReportPage from "@/components/Report"
 
 const Report =()=>{
     return(
-        <div>
+        <div className="w-full bg-black">
             <ReportPage/>
         </div>
     )

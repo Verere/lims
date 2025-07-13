@@ -33,7 +33,7 @@ const PaymentPage=({slug, orderRcpt, cart, lab, pathname})=>{
         getState()
     },[state])
     return(
-        <div className="flex flex-col">
+        <div className="flex flex-col -mt-[50px]">
         <form action={formAction}>
         <div className="flex space-x-2 items-center">
             <label
@@ -62,7 +62,7 @@ const PaymentPage=({slug, orderRcpt, cart, lab, pathname})=>{
           </div>
 
                 <input type="hidden" name="slug" value={slug} />
-                <input type="hidden" name="patient" value={orderRcpt[0]?.patientId} />
+                <input type="hidden" name="patient" value={orderRcpt[0]?.name} />
                 <input type="hidden" name="order" value={orderRcpt[0]?._id} />
                 <input type="hidden" name="orderNo" value={orderRcpt[0]?.orderNum} />
                 <input type="hidden" name="testAmount" value={cartTotal} />

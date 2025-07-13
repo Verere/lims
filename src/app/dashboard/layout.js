@@ -13,8 +13,7 @@ export default function DashboardLayout({ children }) {
   const [showNav, setShowNav]= useState(false)
 const [isMobile, setIsMobile] = useState(false)
 const path= usePathname()
-const slg = path.split('/')[2]
-const {slug,setSlug} = useContext(GlobalContext)
+const slug = path.split('/')[2]
 function handleResize(){
   if(innerWidth <= 640){
     setShowNav(false)
@@ -37,7 +36,7 @@ useEffect(()=>{
   return (
       <>        
            
-           <TopBar showNav={showNav} setShowNav={setShowNav}/>
+           <TopBar showNav={showNav} setShowNav={setShowNav} slug={slug} />
             {/* <div className="flex h-screen overflow-hidden bg-slate-400"> */}
             <Transition
             as={Fragment}
@@ -50,7 +49,7 @@ useEffect(()=>{
             leaveTo="-translate-x-full"
             >
 
-              <Sidebar showNav={showNav} setShowNav={setShowNav} slug={slg} />
+              <Sidebar showNav={showNav} setShowNav={setShowNav} slug={slug} />
             </Transition>
           
              <div className={`transition-all  duration-[400ms] pt-16 ${showNav && !isMobile ? "pl-56": ''}`}>

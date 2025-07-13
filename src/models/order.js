@@ -21,10 +21,9 @@ const OrderSchema = new mongoose.Schema({
        status:{type: String},
        slug:{type: String},
        bDate: {
-        type: Date,
-    } ,
-          
-   isCancelled:{type: Boolean, default:false},  
+           type: String,
+        } ,
+        isCancelled:{type:Boolean, default:false},
 }, {
     timestamps: true
 })

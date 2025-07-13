@@ -13,8 +13,9 @@ const CartSchema = new mongoose.Schema({
    user:{type: String},
    status:{type: String},
   updatedBy:{type: String},
+  isCancelled:{type:Boolean, default:false},
    bDate: {
-        type: Date,
+        type: String,
     } ,
    updatedAt: {
         type: Date,

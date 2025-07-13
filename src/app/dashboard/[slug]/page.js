@@ -1,7 +1,8 @@
 import { fetchLabSlug } from '@/actions/fetch'
 
 const LabSlug=async(params)=>{
-    const slug = params.params.slug
+    const {slug}= params
+    
     const getLab = await fetchLabSlug(slug)
     return(
         <>

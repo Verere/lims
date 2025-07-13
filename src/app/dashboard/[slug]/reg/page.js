@@ -1,5 +1,5 @@
 
-import { fetchPatientListByLab ,fetchTestsByLab,fetchSalesByOrderId, fetchLabSlug, fetchOneOrder, fetchReferralListByLab, fetchClinicListByLab} from '@/actions/fetch'
+import { fetchPatientListByLab ,fetchTestsByLab,fetchSalesByOrderId, fetchLabSlug, fetchOneOrder, fetchReferralListByLab, fetchClinicListByLab, fetchPaymentByOrder} from '@/actions/fetch'
 import RegPage from '@/components/RegPage'
 
 const RegisterTest = async({params, searchParams}) => {
@@ -14,10 +14,12 @@ const RegisterTest = async({params, searchParams}) => {
   const refList = await fetchReferralListByLab(slug, ref) 
   const orderRcpt=  await fetchOneOrder(slug)
   const sales=  await fetchSalesByOrderId(orderRcpt[0]?._id)
+  const pays = await fetchPaymentByOrder(orderRcpt[0]?._id)
   const lab= await fetchLabSlug(slug)
+  console.log('o', orderRcpt)
   return (
     <>
-	<RegPage slug={slug} lab={lab} sales={sales} patients={patientList.result} tests={testLists} refLists={refList.result} clinicList={clinicList} orderRcpt={orderRcpt}/>
+	<RegPage slug={slug} lab={lab} sales={sales} patients={patientList.result} pays={pays} tests={testLists} refLists={refList.result} clinicList={clinicList} orderRcpt={orderRcpt}/>
 	
 </>
   )

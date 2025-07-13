@@ -1,14 +1,12 @@
 "use client"
-
 import React, { useEffect, useState, useContext } from 'react'
-
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { TabsContent } from "@radix-ui/react-tabs";
 import Heading from '../Heading'
 import PatientTable from '../PatientTable';
 import TestTable from '../TestTable';
 import { GlobalContext } from "@/context";
-
+ import PrintPage from '../Print';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Cart } from '../CartItem/Cart';
 import ReferralTable from '../ReferralTable';
@@ -17,13 +15,19 @@ import { CartContext } from '@/context/CartContext';
 import { updateOrderBillTo } from '@/actions';
 import PaymentPage from '../Payment';
 import { CartTotal } from '../CartItem/CartTotal';
+ import {    Popover,    PopoverContent,    PopoverTrigger,  } from "@/components/ui/popover"
+ 
+import moment from 'moment'
 
 
-const RegPage=({slug, patients, tests, refLists, lab, orderRcpt, sales, clinicList,})=>{
-  const {setOrder} = useContext(CartContext)
-    const {user, } = useContext(GlobalContext)
+const RegPage=({slug, patients, tests, refLists, lab, orderRcpt, sales, pays, clinicList,})=>{
+  const {order, setOrder} = useContext(CartContext)
+ const {  user, setCPayment,total, payment, setPayment, setBal} = useContext(GlobalContext)
 const pathname = usePathname();
   const { replace } = useRouter();
+     var date = moment();
+const bDate = date.format('D/MM/YYYY')
+
     const [currentTab, setCurrentTab] = useState("patient");
 useEffect(()=>{
   const setSlug=()=>{
@@ -42,22 +46,36 @@ useEffect(()=>{
 	function handleTabChange(value) {
 		setCurrentTab(value);
 	  }
+
+    useEffect(()=>{
+  const getpayments=async()=>{
+    let allPayments=[]
+    allPayments =  pays.map((i) => i.amountPaid)  
+       const paymentt = allPayments.reduce((acc, item) => 
+       acc + (item)
+       ,0)
+       setPayment(paymentt)
+       const t = total -payment
+       setBal(t)
+//  console.log("b",bal)
+  }
+  getpayments()
+},[order ])
     return(
         <>
-      <div className='min-h-screen -mt-[70px]'>
-    <Heading title="Register Patient Test"/> 
-   <div className='flex sm:flex-col w-full'>
-       <div className='min-w-[50%] sm:w-full'>
+      <div className='min-h-screen -mt-[70px] overflow-y-hidden'>
+    <Heading title="Register Test"/> 
+   <div className='min-h-screen flex sm:flex-col w-full overflow-y-hidden'>
+       <div className='min-y-screen overflow-y-hidden min-w-[50%] sm:w-full px-2'>
   <Tabs value={currentTab} onValueChange={handleTabChange}>
         <div className="w-full">
           <div className="flex items-center justify-between border-b pb-2">            
             <TabsList>
-              <TabsTrigger value="patient">Patient</TabsTrigger>
+              <TabsTrigger value="patient">Search Patient</TabsTrigger>
               <TabsTrigger value="test">Test</TabsTrigger>
               <TabsTrigger value="clinic">Clinic</TabsTrigger>
               <TabsTrigger value="referral">Referral</TabsTrigger>
               <TabsTrigger value="bill">Bill To</TabsTrigger>
-              <TabsTrigger value="payment">Payment</TabsTrigger>
             </TabsList>
           </div>
         </div>
@@ -69,7 +87,7 @@ useEffect(()=>{
      
       </TabsContent>
         <TabsContent value="test">
-		<TestTable tests={tests} orderRcpt={orderRcpt}/>
+		<TestTable tests={tests} orderRcpt={orderRcpt} slug={slug}/>
         </TabsContent>
         <TabsContent value="clinic">
         <ClinicTable patients={clinicList} orderRcpt={orderRcpt}/>
@@ -87,10 +105,7 @@ useEffect(()=>{
        className='px-2 py-1 rounded-full bg-blue-800 text-white font-bold text-lg'>Clinic</button>
     </div>
         </TabsContent>
-        <TabsContent value="payment">
-  <PaymentPage slug={slug} orderRcpt={orderRcpt} cart={sales} lab={lab} pathname={pathname}/>
-         
-        </TabsContent>
+        
       </Tabs>
 	  </div>
       <div className='flex flex-col w-full h-screen'>
@@ -108,13 +123,37 @@ useEffect(()=>{
       <div className='flex'>
     <CartTotal cart={sales}/>
       </div>
-      <div className='flex'>
-      <button  className="p-2 w-full mt-2 bg-black text-white font-bold rounded-bg">
-              Print Test
+      <div className='flex justify-between items-center px-2'>
+           <button className="p-4 w-full bg-gray-700 text-white font-bold">SAVE TEST</button>
+                 <Popover>
+          <PopoverTrigger>
+      <a onClick={()=>setCPayment(0)}   className="p-1 px-2 mx-1 w-full  block bg-green-700 text-white font-bold rounded-bg">
+      MAKE PAYMENT
+                </a>
+      
+
+          </PopoverTrigger>
+          <PopoverContent> 
+          <PaymentPage slug={slug} orderRcpt={orderRcpt} cart={sales} lab={lab} pathname={pathname}/>
+                    </PopoverContent>
+        </Popover>
+                
+         <Popover>
+          <PopoverTrigger>
+          <a className='bg-black text-white p-1 px-2 mx-1 ml-2 font-bold rounded-bg block'>PRINT RECEIPT</a>
+
+
+          </PopoverTrigger>
+          <PopoverContent> 
+          <PrintPage cart={sales} payment={payment} order={orderRcpt} lab={lab}/>
+              </PopoverContent>
+        </Popover>
+         <button onClick={()=>setCPayment(0)}   className="p-4 w-full bg-gray-600 text-white font-bold rounded-bg">
+      CANCEL TEST
                 </button>
-                <button  className="p-2 w-full mt-2 bg-red-500 text-white font-bold rounded-bg">
-            Cancel Test
-                </button>
+                {/* <button  className="p-2 w-full mt-2 bg-blue-500 text-white font-bold rounded-bg">
+         New Registration
+                </button> */}
       </div>
       </div>
      <div className='p-1 h-[50%] bg-blue-200'>

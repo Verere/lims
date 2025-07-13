@@ -4,26 +4,53 @@ import Link from "next/link";
 import { Table } from "@radix-ui/themes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { GlobalContext } from "@/context";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import Search from "../search/search";
 import { updateOrderRef } from "@/actions";
+import { fetchReferralListByLab } from "@/actions/fetch";
 
 const ReferralTable = ({patients, orderRcpt}) => {
- 
 
 
-   
-const ref="ref"
 const { replace } = useRouter();
 const pathname = usePathname();
+  const initialTests = [...patients]
+ 
+    const [item, setItem] = useState([...initialTests])
+    const [code, setCode]= useState('')
+
+    useEffect(()=>{
+      if(code!=='')setItem(initialTests)
+    },[code])
+
+      const handleSearch = async(code) => {       
+        
+        if (code && code.length) {
+          const items = await fetchReferralListByLab(slug, code)
+          setItem(items)
+          setCode("")
+        } else{
+          setItem(initialTests)
+          setCode("")
+        }
+        
+      }
+
  const handleUpdate= async(id, name, ordId, path)=>{
 
     await updateOrderRef(id, name, ordId, path)
 }
     return(
         <div className="w-full mt-3">
-            <Search placeholder="Search Referral" p={ref}/>
+            <div className="flex justify-between items-center border border-gray-400 w-2/3 mb-2 mx-auto  pl-2 rounded-lg ">
+                   <input type="text" placeholder="Search Referral" 
+                   onChange={(e)=>setCode(e.target.value)} 
+                   name="code" className="p-2 outline-none focus:border-none "/>  
+                   <button className="flex justify-between items-center bg-gray-400 p-2  rounded-r-lg"
+                   onClick={()=>handleSearch(code)}> 
+                    Search</button>  
+                 </div>
         <Table.Root layout="auto" variant="surface">
     <Table.Header>
       
@@ -40,7 +67,7 @@ const pathname = usePathname();
     </Table.Header>
   
     <Table.Body>
-     {patients && patients?.map((patient) => (
+     {item && item?.map((patient) => (
               
       <Table.Row key={patient?._id}>
         <Table.RowHeaderCell> {patient?.name}</Table.RowHeaderCell>

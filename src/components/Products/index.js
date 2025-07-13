@@ -17,7 +17,7 @@ const AddProductPage = ({categories, menus, storeid, pathname, values, setValues
         <input type="number" placeholder="price" name="price" required className="border border-gray-400 p-2" />
        
         <textarea
-className="border border-gray-400 p-2 w-full"
+          className="border border-gray-400 p-2 w-full"
           required
           name="description"
           id="desc"

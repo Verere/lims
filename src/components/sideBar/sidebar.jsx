@@ -28,22 +28,19 @@ const Sidebar = forwardRef(({showNav, setShowNav, slug}, ref, searchParams) => {
     {
       title: "Pages",
       list: [
+            
         {
-          title: "New Entry",
+          title: "Register Test",
           path: `/dashboard/${slug}/reg`,
           icon: <GoListOrdered />,
         },     
         {
-          title: "Patient Entry",
+          title: "New Patient",
           path: `/dashboard/${slug}/patient`,
           icon: <MdShoppingBag />,
-        } ,      
+        } ,     
           
-        {
-          title: "Group Entry",
-          path: `/dashboard/${slug}/groups`,
-          icon: <GoListOrdered />,
-        },     
+           
         {
           title: "Category Entry",
           path: `/dashboard/${slug}/categories`,
@@ -64,10 +61,16 @@ const Sidebar = forwardRef(({showNav, setShowNav, slug}, ref, searchParams) => {
           path: `/dashboard/${slug}/clinic`,
           icon: <MdShoppingBag />,
             
+        } ,  
+        {
+          title: "Reports",
+          path: `/dashboard/${slug}/reports`,
+          icon: <MdShoppingBag />,
+            
         }   
         ,     
         {
-          title: "Reports",
+          title: "Result",
           path: "#",
           icon: <MdShoppingBag />,
         }    

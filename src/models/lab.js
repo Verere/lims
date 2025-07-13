@@ -15,10 +15,10 @@ const LabSchema = new mongoose.Schema({
         required: true
     },   
     number: {
-        type: Number        
+        type: String,       
     },
     whatsapp: {
-        type: Number,
+        type: String,
     },    
      user: {
         type: mongoose.Types.ObjectId,

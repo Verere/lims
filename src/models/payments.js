@@ -6,9 +6,7 @@ const PaymentSchema = new mongoose.Schema({
         ref: 'order'
     },
    patient: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'patient',
-    required: true
+    type: String,
 },
    slug:{type: String},
    orderNo:{type: String},
@@ -19,7 +17,7 @@ const PaymentSchema = new mongoose.Schema({
   status:{type: String},
   updatedBy:{type: String},
   bDate: {
-    type: Date,
+    type: String,
 } ,
    updatedAt: {
         type: Date,

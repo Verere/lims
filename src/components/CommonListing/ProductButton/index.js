@@ -10,7 +10,6 @@ import { useFormState } from 'react-dom';
 import { fetchLatestStockItem } from "@/actions/fetch";
 
 export default function ProductButton({ item, orderRcpt}) {
-console.log(item)
   const pathname = usePathname();
   const router = useRouter();
 

@@ -18,6 +18,10 @@ import { hash } from "bcryptjs";
 import User  from '@/models/user';
 import group from "@/models/group";
 import payments from "@/models/payments";
+import moment from 'moment'
+
+    var date = moment();
+const bDate = date.format('D/MM/YYYY')
 
 //fetch labs
 export async function fetchAllLab() {
@@ -34,11 +38,11 @@ export async function fetchAllLab() {
   }
 
   //fetch patients
-export async function fetchAllPatients() {
+export async function fetchAllPatients(slug) {
     await connectToDB();
    
     try {
-      const result = await Patient.find();
+      const result = await Patient.find({slug, isCancelled:false}).sort({name:'asc'});
   
       return JSON.parse(JSON.stringify(result));
     } catch (err) {
@@ -53,7 +57,7 @@ export async function fetchPatientListByLab(slug, patient) {
     await connectToDB();
    
     try {
-      const result = await Patient.find({slug, name: { $regex: regex } }).sort({createdAt:-1})
+      const result = await Patient.find({slug, isCancelled:false, name: { $regex: regex } }).sort({name:'asc'})
   
       return {
         success:true,
@@ -71,6 +75,21 @@ export async function fetchReferralListByLab(slug, ref) {
    
     try {
       const result = await Referral.find({slug, name: { $regex: regex } });
+  
+      return {
+        success:true,
+        result:JSON.parse(JSON.stringify(result))};
+    } catch (err) {
+      console.log(err);
+      return {error: "Failed to fetch lab!"}
+    }
+  }
+export async function fetchReferrals(slug) {
+
+    await connectToDB();
+   
+    try {
+      const result = await Referral.find({slug}).sort({name:'asc'})
   
       return {
         success:true,
@@ -211,7 +230,7 @@ console.log(result)
    
     try {
       connectToDB();
-      const result = await Cart.find({order})
+      const result = await Cart.find({order, isCancelled:false})
   
       return JSON.parse(JSON.stringify(result));
     } catch (err) {
@@ -219,6 +238,20 @@ console.log(result)
       return{error:"Failed to fetch Order number!"};
     }
   }
+  // //fetch sales by orderId
+  // export async function fetchAllOrderTest(order) {
+  //   await connectToDB();
+   
+  //   try {
+  //     connectToDB();
+  //     const result = await Order.find({order, isCancelled:false})
+  
+  //     return JSON.parse(JSON.stringify(result));
+  //   } catch (err) {
+  //     console.log(err);
+  //     return{error:"Failed to fetch Order number!"};
+  //   }
+  // }
 
 
 //fetch lab by user
@@ -237,7 +270,6 @@ export async function fetchLab(id) {
 }
 //fetch Lab by Slug
 export async function fetchLabSlug(id) {
-  console.log("Sliug",id)
   await connectToDB();
  
   try {
@@ -266,7 +298,22 @@ export async function fetchLabs(id) {
 }
 
 //fetch tests by slug
-export async function fetchTestsByLab(slug, test) {
+export async function fetchTestsByLab(slug) {
+
+  await connectToDB();
+ 
+  try {
+    connectToDB();
+    const result = await Test.find({slug}).sort({createdAt:'desc'});
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch user!"}
+  }
+}
+//fetch tests by slug
+export async function fetchTestsByLabTest(slug, test) {
   const regex = new RegExp(test, "i")
 
   await connectToDB();
@@ -296,6 +343,68 @@ export async function fetchTestsByLab(slug, test) {
     return{error:"Failed to fetch Order number!"};
   }
 }
+ //fetch order
+ export async function fetchAllOrders(slug) {
+   
+   try {
+    await connectToDB();
+ ;
+    const result = await Order.find({slug}).sort({createdAt:'desc'});
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch Order number!"};
+  }
+}
+ //fetch order
+ export async function fetchAllReferralOrders(slug) {
+ 
+ 
+ 
+  try {
+    connectToDB();
+    const result = await Order.find({slug, isCancelled:false}).sort({createdAt:'desc'});
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch Order number!"};
+  }
+}
+ //fetch order
+ export async function fetchAllReferralOrdersByName(slug, test) {
+ const regex = new RegExp(test, "i")
+
+ 
+    connectToDB();
+ 
+  try {
+    connectToDB();
+    const result = await Order.find({slug, isCancelled:false, name: { $regex: regex }}).sort({createdAt:'desc'});
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch Order number!"};
+  }
+}
+ //fetch order
+ export async function fetchAllOrderTest(order) {
+  await connectToDB();
+ 
+  try {
+    connectToDB();
+    const result = await Cart.find({order})
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch Order number!"};
+  }
+}
+
+
 //fetch clinics by slug
 export async function fetchClinicListByLab(slug, clinic) {
   const regex = new RegExp(clinic, "i")
@@ -400,3 +509,35 @@ export async function fetchCountOrder(slug) {
     return{error:"Failed to fetch Order number!"};
   }
 }
+ //fetch sales by orderId
+ export async function fetchAllPayments(slug) {
+  await connectToDB();
+ 
+  try {
+    connectToDB();
+    const result = await payments.find({slug, bDate}).sort({'createdAt':'desc'})
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch Order number!"};
+  }
+}
+
+export async function updateSalesCancel(id, path) {
+  console.log('i', id, path)
+    await connectToDB();
+ 
+    await Cart.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isCancelled:  true,
+
+      },
+      { new: true }
+    );
+  
+    revalidatePath(path);
+  }

@@ -10,7 +10,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import CartItemPanel from '@/components/CartItem/CartItem'
 
 export const Cart = ({cart})=>{
-  console.log("c",cart)
 
 const { deleteItem} = useContext(CartContext)
  const {setCartTotal} = useContext(GlobalContext)

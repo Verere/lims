@@ -8,3 +8,9 @@ export function percentDiscount(price1, price2) {
    return discount
 
 }
+export function refRate(num, rate) {
+   const discount = num*rate
+
+   return  '₦' + discount?.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+
+}

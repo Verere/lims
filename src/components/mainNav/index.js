@@ -11,7 +11,7 @@ const MainNav=()=>{
                 </div>
             <div>
             <div className="space-x-3 sm:space-x-0 text-white">
-                    <Link href="#"><button className="py-2 px-3 focus:outline-none">register</button></Link>
+                    {/* <Link href="/signup"><button className="py-2 px-3 focus:outline-none">register</button></Link> */}
                     <Link href="/login"><button className="py-2 px-3 focus:outline-none">Login</button></Link>
                                 
                 </div>

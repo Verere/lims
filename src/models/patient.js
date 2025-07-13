@@ -17,6 +17,10 @@ const PatientSchema = new mongoose.Schema({
         type: String,
         required: true
     },   
+    gender: {
+        type: String,
+        required: true
+    },   
     number: {
         type: Number        
     },
@@ -26,6 +30,7 @@ const PatientSchema = new mongoose.Schema({
     slug: {
         type: String,
     }, 
+     isCancelled:{type:Boolean, default:false},
     labId: {type: mongoose.Types.ObjectId,
         ref: 'lab'}, 
        

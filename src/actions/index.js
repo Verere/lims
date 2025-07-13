@@ -19,10 +19,13 @@ import User  from '@/models/user';
 import payments from "@/models/payments";
 import test from "@/models/test";
 import cart from "@/models/cart";
-import { fetchLab, fetchNewLab, fetchCountPatient , fetchCountRef, fetchCountOrder,
+import { fetchLab, fetchNewLab, fetchCountPatient , fetchCountRef, fetchCountOrder, fetchAllOrderTest,
   fetchSalesByOrderId, fetchPaymentByOrder} from "./fetch";
 import { updateUser } from "./update";
+import moment from 'moment'
 
+    var date = moment();
+const bDate = date.format('D/MM/YYYY')
 
 export const authenticate = async (prevState, formData) => {
   const { email, password } = Object.fromEntries(formData);
@@ -146,10 +149,9 @@ export const addReferral = async (prevState, formData) => {
 };
 
 export const addPatient = async (prevState, formData) => {
-  const { name, age, address, number, email,slug, labId, path } =
+  const { name, age, gender, address, number, email,slug, labId, path } =
     Object.fromEntries(formData);
    
- console.log( name, age, address, number, email, labId, slug, path )
     try {
       const num = await fetchCountPatient(labId) +1
       const regNumber = slug.substring(0, 4) + num 
@@ -157,7 +159,7 @@ export const addPatient = async (prevState, formData) => {
     connectToDB();
 
     const newProduct = new Patient({
-      name, regNumber, age, address, number, email, slug, labId,
+      name, regNumber, age, gender, address, number, email, slug, labId,
     
     });
 
@@ -268,12 +270,13 @@ export const addPayment= async (prevState, formData) => {
             const amtTotal = allPayments.reduce((acc, item) => 
           acc + (item)
           ,0)
-      
+      const tests = await fetchAllOrderTest(order)
+
        if(amtTotal===0 && amountPaid <= testAmount || amountPaid <= (testAmount - amtTotal)){
           connectToDB(); 
      
            const newMenu = new payments({
-            patient, order, orderNo, testAmount, amountPaid, mop, user, slug,
+            patient, order, orderNo, amount:testAmount, amountPaid, mop, user, slug,bDate,
            });
            
            await newMenu.save();
@@ -282,7 +285,7 @@ export const addPayment= async (prevState, formData) => {
            const amt = parseInt(amountPaid) + parseInt(amtTotal)
            const bal = parseInt(testAmount) - parseInt(amt)
           
-           await updateOrderBalance(order, amt, bal, "Completed")
+           await updateOrderBalance(order, testAmount, amt, bal, "Completed", tests)
            //update status in order
        
            revalidatePath(path); 
@@ -333,26 +336,26 @@ export const addMenuStock= async (formData) => {
 };
 //add new test
 export const addTest= async (prevState, formData) => {
-  const {name, price, category, group,  slug, user, order, path} =
+  const {name, price, category,  slug, user, order, path} =
     Object.fromEntries(formData);  
     try {   
     connectToDB(); 
       const newMenu = new test({
-         name, price,  category, group,   slug , user});
+         name, price,  category,   slug , user});
       
       await newMenu.save();
 
       //sum test amount
-      const sales = await fetchSalesByOrderId(order)
+      // const sales = await fetchSalesByOrderId(order)
 
-      let allSaless=[]
-      allSaless =  Payments.map((i) => i.price)
+      // let allSaless=[]
+      // allSaless =  Payments.map((i) => i.price)
      
-            const amtTotal = sales.reduce((acc, item) => 
-          acc + (item)
-          ,0)
+      //       const amtTotal = sales.reduce((acc, item) => 
+      //     acc + (item)
+      //     ,0)
       // update order amount
-      await updateOrderAmount(order, amtTotal)
+      // await updateOrderAmount(order, amtTotal)
   
       revalidatePath(path); 
       return{success:true}
@@ -367,7 +370,6 @@ export const addTest= async (prevState, formData) => {
 export const addSales= async (prevState, formData) => {
   const {order, slug, orderNum, test,  price,  user,  path} =
     Object.fromEntries(formData);
-      
   try{
     connectToDB(); 
       const newMenu = new Cart({
@@ -378,7 +380,7 @@ export const addSales= async (prevState, formData) => {
       revalidatePath(path); 
   } catch (err) {
     console.log(err);
-    throw new Error("Failed to create Menu!");
+    return{error:"Failed to ADD Test!"}
   }
 };
 
@@ -392,7 +394,7 @@ export const addOrder= async (prevState, formData) => {
  
  
       const newMenu = new Order({
-        patientId, name, phone, orderNum, address, slug, user });
+        patientId, name, phone, orderNum, address, slug, bDate, user });
       
       await newMenu.save();
   
@@ -433,18 +435,18 @@ export const addOrder= async (prevState, formData) => {
   }
 
 //update order referral
-export async function updateOrderRef( ordId, id, name, path ) {
+export async function updateOrderRef( id, name, ordId, path ) {
 console.log("r", ordId, "id", id,"nm", name, path )
       await connectToDB();
    
    await Order.findOneAndUpdate(
       {
-        _id: name,
+        _id: ordId,
       },
       {
    
-    referralId: ordId,
-     referral: id
+        referral: name,
+        referralId: id,
       },
       { new: true }
     );
@@ -469,8 +471,7 @@ revalidatePath(path);
   
   }
 //update order billTo
-export async function updateOrderBalance( id, amtTotal, bal, status ) {
-  console.log("id", id, amtTotal, bal,"nm", status )
+export async function updateOrderBalance( id, testAmount, amtTotal, bal, status, tests ) {
   await connectToDB();
 
 await Order.findOneAndUpdate(
@@ -478,8 +479,10 @@ await Order.findOneAndUpdate(
     _id: id,
   },
   {
+    amount:testAmount,
     amountPaid:amtTotal, 
     bal,
+    tests,
     status
   },
   { new: true }
@@ -502,3 +505,18 @@ await Order.findOneAndUpdate(
   
   }
 
+ export async function updatePatient(id ) {
+    await connectToDB();
+ 
+    await Patient.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isCancelled:  true,
+
+      },
+      { new: true }
+    );
+  
+  }
