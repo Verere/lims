@@ -6,7 +6,7 @@ import Lab from "@/models/lab"
 import Cart from "@/models/cart"
 import  Referral  from '@/models/referral';
 import MenuStock from "@/models/menuStock"
-import Group from "@/models/group"
+import Expenses from "@/models/expenses"
 import Category from "@/models/category"
  import Patient from "@/models/patient"
  import Clinic from "@/models/clinic"
@@ -151,7 +151,7 @@ export const addReferral = async (prevState, formData) => {
 export const addPatient = async (prevState, formData) => {
   const { name, age, gender, address, number, email,slug, labId, path } =
     Object.fromEntries(formData);
-   
+    console.log('gen', gender, 'l',labId)
     try {
       const num = await fetchCountPatient(labId) +1
       const regNumber = slug.substring(0, 4) + num 
@@ -169,6 +169,30 @@ export const addPatient = async (prevState, formData) => {
   } catch (err) {
     console.log(err);
     return{error:"Failed to create Patient!"}
+  }
+
+};
+
+export const addExpenses = async (prevState, formData) => {
+  const { description, amount, receivedBy, authorisedBy, user, slug,  path } =
+    Object.fromEntries(formData);
+
+    try {
+    
+
+    connectToDB();
+
+    const newProduct = new Expenses({
+     description, amount, receivedBy, authorisedBy, user, bDate, slug,
+    
+    });
+
+    await newProduct.save();
+  revalidatePath(path);
+    return{success:true}
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to add Expenses!"}
   }
 
 };

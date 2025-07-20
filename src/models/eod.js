@@ -1,18 +1,26 @@
 import mongoose from "mongoose";
 
 const EodSchema = new mongoose.Schema({
-location:{type:String},
     cash: {type: Number},
+    cashCount: {type: Number},
     pos: {type: Number},
+    posCount: {type: Number},
     transfer: {type: Number},
-    credit: {type: Number},
-    complementary: {type: Number}, 
+    transferCount: {type: Number},
     totalSales: {type: Number}, 
-    netSales: {type: Number}, 
+    credit: {type: Number},
+    revenue: {type: Number}, 
+    debtPaid: {type: Number}, 
+    expenses: {type: Number}, 
+    totalTestOrderd: {type: Number}, 
+    totalTestCompleted: {type: Number}, 
+    pendingTest: {type: Number}, 
+    criticalResultReported: {type: Number}, 
+    rejectedSamples: {type: Number}, 
+    testRepeated: {type: Number},     
     bDate: {type: Date},
-    hotel:{
-        type: mongoose.Types.ObjectId,
-        ref: 'hotel'
+    slug:{
+        type: String
     },
     createdAt: {
         type: Date,

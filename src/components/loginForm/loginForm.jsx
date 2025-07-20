@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 const LoginForm = () => {
    const [state, formAction, Pending] = useFormState(authenticate, {});
 const [loading, setLoading]= useState(false)
-    // const {location,user, setUser} = useContext(GlobalContext)
+    const {location,user, setUser} = useContext(GlobalContext)
 const [email, setEmail]= useState("")
 
   useEffect(()=>{
@@ -27,6 +27,8 @@ getState()
 
 const getUser = async()=>{
     const userN = await fetchUser(email );
+    setUser(userN)
+    console.log('u', user)
     localStorage.setItem('user', JSON.stringify(userN))
     setLoading(true)
 }

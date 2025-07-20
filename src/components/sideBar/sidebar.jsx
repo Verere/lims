@@ -92,8 +92,8 @@ const Sidebar = forwardRef(({showNav, setShowNav, slug}, ref, searchParams) => {
         <picture>
         <img
           className="w-16 h-auto rounded-full mb-2"
-          src= {user?.img || "/logo.jpg"}
-          alt={user?.img}      
+          src= {user?.logo || "/logo.jpg"}
+          alt={user?.logo}      
           />
           </picture>
           <span className="text-sm font-bold uppercase">{user.name}</span>

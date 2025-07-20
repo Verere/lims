@@ -23,10 +23,14 @@ import moment from 'moment'
 const RegPage=({slug, patients, tests, refLists, lab, orderRcpt, sales, pays, clinicList,})=>{
   const {order, setOrder} = useContext(CartContext)
  const {  user, setCPayment,total, payment, setPayment, setBal} = useContext(GlobalContext)
+const [billTo, setBillTo]= useState("")
 const pathname = usePathname();
+
   const { replace } = useRouter();
+
      var date = moment();
 const bDate = date.format('D/MM/YYYY')
+console.log(user,'uuser regpage')
 
     const [currentTab, setCurrentTab] = useState("patient");
 useEffect(()=>{
@@ -97,12 +101,17 @@ useEffect(()=>{
         </TabsContent>
         <TabsContent value="bill">
 		<div className='flex flex-col gap-2'>
-      <button onClick={async()=>await updateOrderBillTo(orderRcpt[0]?._id, "Patient", pathname)}
+      
+      <input type="text" placeholder="Bill To" value ={billTo} onChanged={(e)=>setBillTo(e.target.value)} className="border mx-3 mr-10 mt-2 rounded-lg border-gray-400 p-2 w-full" required />
+     
+      <button onClick={async()=>await updateOrderBillTo(orderRcpt[0]?._id, billTo, pathname)}
+      className='px-2 py-1 rounded-full bg-blue-800 text-white font-bold text-lg'>Save</button>
+      {/* <button onClick={async()=>await updateOrderBillTo(orderRcpt[0]?._id, "Patient", pathname)}
       className='px-2 py-1 rounded-full bg-blue-800 text-white font-bold text-lg'>Patient</button>
       <button onClick={async()=>await updateOrderBillTo(orderRcpt[0]?._id, "Referral", pathname)}
       className='px-2 py-1 rounded-full bg-blue-800 text-white font-bold text-lg'>Referral</button>
       <button onClick={async()=>await updateOrderBillTo(orderRcpt[0]?._id, "Clinic", pathname)}
-       className='px-2 py-1 rounded-full bg-blue-800 text-white font-bold text-lg'>Clinic</button>
+       className='px-2 py-1 rounded-full bg-blue-800 text-white font-bold text-lg'>Clinic</button> */}
     </div>
         </TabsContent>
         
@@ -123,8 +132,8 @@ useEffect(()=>{
       <div className='flex'>
     <CartTotal cart={sales}/>
       </div>
-      <div className='flex justify-between items-center px-2'>
-           <button className="p-4 w-full bg-gray-700 text-white font-bold">SAVE TEST</button>
+      <div className='flex justify-between items-center px-2 mb-2'>
+           <button className="p-4 w-full bg-gray-700 text-white font-bold">POST BILL</button>
                  <Popover>
           <PopoverTrigger>
       <a onClick={()=>setCPayment(0)}   className="p-1 px-2 mx-1 w-full  block bg-green-700 text-white font-bold rounded-bg">
@@ -148,6 +157,7 @@ useEffect(()=>{
           <PrintPage cart={sales} payment={payment} order={orderRcpt} lab={lab}/>
               </PopoverContent>
         </Popover>
+
          <button onClick={()=>setCPayment(0)}   className="p-4 w-full bg-gray-600 text-white font-bold rounded-bg">
       CANCEL TEST
                 </button>
@@ -156,7 +166,7 @@ useEffect(()=>{
                 </button> */}
       </div>
       </div>
-     <div className='p-1 h-[50%] bg-blue-200'>
+     <div className='p-1 h-[50%] bg-blue-200 '>
       <Cart cart={sales}/>
      </div>
    </div>

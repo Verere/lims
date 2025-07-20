@@ -23,12 +23,13 @@ const TopBar = ({showNav, setShowNav, slug}) => {
         </div>
       <ul className='flex w-1/2 justify-between items-center text-white font-bold px-2'>
         <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/reg`)}>Home</li>
-        <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/payments`)}>Payments</li>
-        {/* <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/payments`)}>Expenses</li> */}
         <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/orders`)}>Orders</li>
+        <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/payments`)}>Payments</li>
+        <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/expenses`)}>Expenses</li>
+        <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/outstanding`)}>Outstanding</li>
+        {/* <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/eod`)}>EOD</li> */}
         <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/ref`)}>Referrals</li>
-        <li  className ='cursor-pointer' onClick ={()=>replace(`/dashboard/${slug}/bills`)}>Outstanding</li>
-        <li  className ='cursor-pointer' onClick ={()=>replace(`/#`)}>Logout</li>
+        <li  className ='cursor-pointer mr-2' onClick ={()=>replace(`/login`)}>Logout</li>
 
       </ul>
          

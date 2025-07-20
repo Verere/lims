@@ -7,7 +7,7 @@ import Patient from "@/models/patient"
 import Test from "@/models/test"
 import Category from "@/models/category"
 import Referral from "@/models/referral"
-import Group from "@/models/group"
+import Expenses from "@/models/expenses"
 import Clinic from "@/models/clinic"
 import Order from "@/models/order"
 import Cart from "@/models/cart"
@@ -57,7 +57,7 @@ export async function fetchPatientListByLab(slug, patient) {
     await connectToDB();
    
     try {
-      const result = await Patient.find({slug, isCancelled:false, name: { $regex: regex } }).sort({name:'asc'})
+      const result = await Patient.find({slug, isCancelled:false, name: { $regex: regex } }).sort({name:'desc'})
   
       return {
         success:true,
@@ -305,6 +305,21 @@ export async function fetchTestsByLab(slug) {
   try {
     connectToDB();
     const result = await Test.find({slug}).sort({createdAt:'desc'});
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch user!"}
+  }
+}
+//fetch tests by slug
+export async function fetchExpensesListByLab(slug) {
+
+  await connectToDB();
+ 
+  try {
+    connectToDB();
+    const result = await Expenses.find({slug, bDate, isCancelled:false}).sort({createdAt:'desc'});
 
     return JSON.parse(JSON.stringify(result));
   } catch (err) {

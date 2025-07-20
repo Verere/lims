@@ -8,7 +8,6 @@ import React from 'react'
 const Patient = async({params}) => {
   const slug=params.slug
     const patientList = await fetchPatientListByLab(slug) 
-    console.log('p', patientList)
   return (
     <div className="-mt-[56px]">
     <Heading title="Patient Entry"/>

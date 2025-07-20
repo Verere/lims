@@ -27,6 +27,7 @@ useEffect(()=>{
   const slg = JSON.parse(localStorage.getItem('slug'))
 setSlug(slg)
 console.log(slug)
+console.log(user,'ptable')
   }
   getSlug()
 })
@@ -83,12 +84,13 @@ await updatePatient(id, path)
       
       <Table.Row>
         <Table.ColumnHeaderCell>Patient</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Reg No.</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Age</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Gender</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Number</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Test</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Reg No.</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Edit</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Delete</Table.ColumnHeaderCell>
       </Table.Row>
@@ -99,8 +101,8 @@ await updatePatient(id, path)
               
       <Table.Row key={patient?._id}>
         <Table.RowHeaderCell> {patient?.name}</Table.RowHeaderCell>
-        <Table.Cell>{patient?.regNumber}</Table.Cell>
         <Table.Cell>{patient?.age}</Table.Cell>
+        <Table.Cell>{patient?.gender}</Table.Cell>
         <Table.Cell>{patient?.address}</Table.Cell>
         <Table.Cell>{patient?.number}</Table.Cell>
         <Table.Cell>{patient?.email}</Table.Cell>
@@ -119,6 +121,7 @@ await updatePatient(id, path)
                       </button>
                           </form>
                     </Table.Cell>
+        <Table.Cell>{patient?.regNumber}</Table.Cell>
        <Table.Cell>
        
           <button   className="p-2  bg-blue-500 text-white font-bold rounded-lg" onClick={()=>replace(`/dashboard/${slug}/patient?id=${patient._id}`)}>

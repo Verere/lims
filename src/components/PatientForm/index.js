@@ -15,13 +15,13 @@ const [category, setCategory]=useState("")
   const { replace } = useRouter();
   const pathname = usePathname();
   // const user= JSON.parse(localStorage.getItem('user'))
+   const {user }= useContext(GlobalContext)
  const [state, formAction, isPending] = useFormState(addPatient, {});
-let user;
-// console.log(user)
+ console.log(user)
   useEffect(()=>{
   const  getUser = ()=>{
 
-    if(!user)replace("/login")
+    // if(!user)replace("/login")
     }
     getUser()
   },[user, replace])
@@ -46,8 +46,8 @@ getState()
       <input type="text" placeholder="Enter Address" name="address" className="border mx-2 border-gray-400 p-2 w-full" />
     <div className="flex justify-between mt-2 w-full sm:flex-col">
       <input type="text" placeholder="Enter Patient Age" name="age" className="border mx-2 border-gray-400 p-2 w-full" required />
-        <select name="gender"   value={category} onChange={(e)=>setCategory(e.target.value)}>
-          <option value="">Choose Group</option>
+        <select name="gender" className="p-2"  value={category} onChange={(e)=>setCategory(e.target.value)}>
+          <option value="">Choose Gender</option>
                 <option  value="Male" >Male</option>
                 <option  value="Female" >Female</option>
         </select> 
