@@ -129,7 +129,7 @@ useEffect(()=>{
         <p>Bill To :<span>{orderRcpt[0]?.billTo}</span></p>
       
       </div>
-      <div className='flex'>
+      <div className='flex overflow-hidden'>
     <CartTotal cart={sales}/>
       </div>
       <div className='flex justify-between items-center px-2 mb-2'>
@@ -166,7 +166,7 @@ useEffect(()=>{
                 </button> */}
       </div>
       </div>
-     <div className='p-1 h-[50%] bg-blue-200 '>
+     <div className='p-1 h-[40%] bg-blue-200 overflow-hidden'>
       <Cart cart={sales}/>
      </div>
    </div>
