@@ -58,13 +58,11 @@ const pathname = usePathname();
         <Table.ColumnHeaderCell>Order No.</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Patient</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Billed To</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Test</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Amount</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Amount Paid</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Balance</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Date</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Make Payment</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Test</Table.ColumnHeaderCell>
       </Table.Row>
     </Table.Header>
   
@@ -72,22 +70,19 @@ const pathname = usePathname();
      {item && item?.map((patient) => (
               
       <Table.Row key={patient?._id}>
-        <Table.RowHeaderCell> {patient?.name}</Table.RowHeaderCell>
-        <Table.Cell>{patient?.regNumber}</Table.Cell>
-        <Table.Cell>{patient?.address}</Table.Cell>
-        <Table.Cell>{patient?.number}</Table.Cell>
-        <Table.Cell>{patient?.email}</Table.Cell>
-        <Table.Cell>{patient?.clinic}</Table.Cell>
+        <Table.RowHeaderCell> {patient?.orderNum}</Table.RowHeaderCell>
+        <Table.Cell>{patient?.name}</Table.Cell>
+        <Table.Cell>{patient?.billTo}</Table.Cell>
+        <Table.Cell>{patient?.amount}</Table.Cell>
+        <Table.Cell>{patient?.amountPaid}</Table.Cell>
+        <Table.Cell>{patient?.bal}</Table.Cell>
+        <Table.Cell>{patient?.bDate}</Table.Cell>
        <Table.Cell>
                       <button  className="px-2 py-1 bg-blue-500 text-white font-bold rounded-lg">
-                      Edit
+                      Make Payment
                       </button>
                     </Table.Cell>
-       <Table.Cell>
-       <button onClick={()=>handleUpdate(patient?._id, patient?.name, orderRcpt[0]?._id, pathname)} className="px-2 py-1 bg-blue-500 text-white font-bold rounded-lg">
-       Add
-                      </button>
-                    </Table.Cell>
+      
        
       </Table.Row>
     ))} 

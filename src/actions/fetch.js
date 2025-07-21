@@ -343,6 +343,21 @@ export async function fetchTestsByLabTest(slug, test) {
     return{error:"Failed to fetch user!"}
   }
 }
+//fetch tests by slug
+export async function fetchTestsById(id) {
+
+  await connectToDB();
+ 
+  try {
+    connectToDB();
+    const result = await Test.find({_id:id});
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch user!"}
+  }
+}
 
  //fetch order
  export async function fetchOneOrder(slug) {
@@ -365,6 +380,20 @@ export async function fetchTestsByLabTest(slug, test) {
     await connectToDB();
  ;
     const result = await Order.find({slug}).sort({createdAt:'desc'});
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch Order number!"};
+  }
+}
+ //fetch order
+ export async function fetchAllOutstanding(slug) {
+   
+   try {
+    await connectToDB();
+ ;
+    const result = await Order.find({slug, isCancelled:false,  bal: { $gt: 0 } }).sort({createdAt:'desc'});
 
     return JSON.parse(JSON.stringify(result));
   } catch (err) {

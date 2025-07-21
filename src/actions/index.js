@@ -360,29 +360,22 @@ export const addMenuStock= async (formData) => {
 };
 //add new test
 export const addTest= async (prevState, formData) => {
-  const {name, price, category,  slug, user, order, path} =
+  const {up, id, name, price, category,  slug, user, order, path} =
     Object.fromEntries(formData);  
-    try {   
+    try {  
+       if(up==="true"){
+await updateTest(id, name, price, category, path)
+return{success:true}
+      }else{ 
     connectToDB(); 
       const newMenu = new test({
          name, price,  category,   slug , user});
       
       await newMenu.save();
 
-      //sum test amount
-      // const sales = await fetchSalesByOrderId(order)
-
-      // let allSaless=[]
-      // allSaless =  Payments.map((i) => i.price)
-     
-      //       const amtTotal = sales.reduce((acc, item) => 
-      //     acc + (item)
-      //     ,0)
-      // update order amount
-      // await updateOrderAmount(order, amtTotal)
-  
       revalidatePath(path); 
       return{success:true}
+    }
   } catch (err) {
     console.log(err);
     return{error:"Failed to create Test!"}
@@ -543,4 +536,22 @@ await Order.findOneAndUpdate(
       { new: true }
     );
   
+  }
+
+ export async function updateTest(id, name, price, category, path) {
+  console.log(id, price, path)
+    await connectToDB();
+ 
+    await test.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        name:name,
+         price:price, 
+         category:category,
+
+      },
+      { new: true }
+    );
   }

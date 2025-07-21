@@ -70,7 +70,7 @@ return(
         <Table.Cell>{patient?.price}</Table.Cell>
         <Table.Cell>{patient?.category}</Table.Cell>
        <Table.Cell>
-                      <button  className="px-2 py-1 bg-blue-500 text-white font-bold rounded-lg">
+                      <button  onClick={()=>replace(`/dashboard/${slug}/tests?id=${patient._id}`)} className="px-2 py-1 bg-blue-500 text-white font-bold rounded-lg">
                       Edit
                       </button>
                     </Table.Cell>
