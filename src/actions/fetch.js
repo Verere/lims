@@ -443,7 +443,20 @@ export async function fetchClinicListByLab(slug, clinic) {
  
   try {
     connectToDB();
-    const result = await Clinic.find({slug, name: { $regex: regex } });
+    const result = await Clinic.find({slug, name: { $regex: regex }, isCancelled:false });
+
+    return JSON.parse(JSON.stringify(result));
+  } catch (err) {
+    console.log(err);
+    return{error:"Failed to fetch user!"}
+  }
+}
+export async function fetchClinics(slug) {
+  await connectToDB();
+ 
+  try {
+    connectToDB();
+    const result = await Clinic.find({slug, isCancelled:false });
 
     return JSON.parse(JSON.stringify(result));
   } catch (err) {
@@ -572,3 +585,16 @@ export async function updateSalesCancel(id, path) {
   
     revalidatePath(path);
   }
+// export async function updateClinicCancelled( slug) {
+//     console.log('updated')
+//   await connectToDB();
+   
+//     await Clinic.updateMany(
+//       {
+//         slug,
+//       },
+//       {
+//    isCancelled:false
+//       },
+//       { multi: true }
+//   }

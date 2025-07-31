@@ -18,6 +18,7 @@ const {user} = useContext(GlobalContext)
  const [state, formAction, isPending] = useFormState(addReferral, {});
 
 const [category, setCategory]=useState([])
+console.log(clinics)
   
  useEffect(()=>{
   const getState=()=>{

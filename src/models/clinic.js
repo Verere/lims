@@ -8,6 +8,7 @@ const ClinicSchema = new mongoose.Schema({
    slug:{type: String},
    user:{type: String},
   updatedBy:{type: String},
+  isCancelled:{type: Boolean, default: false},
    updatedAt: {
         type: Date,
         default: Date.now
