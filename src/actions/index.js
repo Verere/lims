@@ -124,7 +124,7 @@ export const addClinic = async (prevState, formData) => {
 };
 
 export const addReferral = async (prevState, formData) => {
-  const { name, address, number, email,slug, clinic,  path } =
+  const { name, address, number, account, accountName, email,slug, clinic,  path } =
     Object.fromEntries(formData);
    
     try {
@@ -134,7 +134,7 @@ export const addReferral = async (prevState, formData) => {
     connectToDB();
 
     const newProduct = new Referral({
-      name, regNumber, address, number, email, slug, clinic,
+      name, regNumber, address, number, account, accountName, email, slug, clinic,
     
     });
 
@@ -464,6 +464,22 @@ console.log("r", ordId, "id", id,"nm", name, path )
    
         referral: name,
         referralId: id,
+      },
+      { new: true }
+    );
+    revalidatePath(path);
+  }
+//update order referral
+export async function CancelRef( id, path ) {
+      await connectToDB();
+   
+   await Referral.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+   
+        isCancelled: true,
       },
       { new: true }
     );

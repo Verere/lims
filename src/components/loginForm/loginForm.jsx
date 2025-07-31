@@ -26,11 +26,11 @@ getState()
   },[state])
 
 const getUser = async()=>{
-    const userN = await fetchUser(email );
-    setUser(userN)
-    console.log('u', user)
-    localStorage.setItem('user', JSON.stringify(userN))
-    setLoading(true)
+  setLoading(true)
+  const userN = await fetchUser(email );
+  setUser(userN)
+  console.log('u', user)
+    // localStorage.setItem('user', JSON.stringify(userN))
 }
 
   return (

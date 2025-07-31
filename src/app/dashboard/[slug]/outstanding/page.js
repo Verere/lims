@@ -1,5 +1,5 @@
 import { addPatient } from '@/actions'
-import { fetchAllOutstanding } from '@/actions/fetch'
+import { fetchAllOutstanding  } from '@/actions/fetch'
 import Heading from '@/components/Heading'
 import OutstandingTable from '@/components/OutstandingTable'
 import React from 'react'

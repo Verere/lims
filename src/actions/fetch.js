@@ -89,7 +89,7 @@ export async function fetchReferrals(slug) {
     await connectToDB();
    
     try {
-      const result = await Referral.find({slug}).sort({name:'asc'})
+      const result = await Referral.find({slug, isCancelled:false}).sort({name:'asc'})
   
       return {
         success:true,
@@ -238,20 +238,7 @@ console.log(result)
       return{error:"Failed to fetch Order number!"};
     }
   }
-  // //fetch sales by orderId
-  // export async function fetchAllOrderTest(order) {
-  //   await connectToDB();
-   
-  //   try {
-  //     connectToDB();
-  //     const result = await Order.find({order, isCancelled:false})
-  
-  //     return JSON.parse(JSON.stringify(result));
-  //   } catch (err) {
-  //     console.log(err);
-  //     return{error:"Failed to fetch Order number!"};
-  //   }
-  // }
+ 
 
 
 //fetch lab by user

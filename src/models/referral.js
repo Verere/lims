@@ -7,12 +7,17 @@ const ReferralSchema = new mongoose.Schema({
     },
     regNumber:{
         type: String,
-        required: true,
+    },
+   
+    account:{
+        type: String,
+    },
+    accountName:{
+        type: String,
     },
    
     address: {
         type: String,
-        required: true
     },   
     number: {
         type: Number        
@@ -22,6 +27,7 @@ const ReferralSchema = new mongoose.Schema({
     }, 
     slug:{type: String}, 
     Clinic:{type: String}, 
+    isCancelled:{type: Boolean, default: false}
    
 }, {
     timestamps: true

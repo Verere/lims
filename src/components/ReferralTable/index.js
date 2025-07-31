@@ -7,7 +7,7 @@ import { GlobalContext } from "@/context";
 import { useContext, useState, useEffect } from "react";
 
 import Search from "../search/search";
-import { updateOrderRef } from "@/actions";
+import { CancelRef, updateOrderRef } from "@/actions";
 import { fetchReferralListByLab } from "@/actions/fetch";
 
 const ReferralTable = ({patients, orderRcpt}) => {
@@ -67,7 +67,7 @@ const pathname = usePathname();
     </Table.Header>
   
     <Table.Body>
-     {item && item?.map((patient) => (
+     {patients && patients?.map((patient) => (
               
       <Table.Row key={patient?._id}>
         <Table.RowHeaderCell> {patient?.name}</Table.RowHeaderCell>
@@ -77,13 +77,13 @@ const pathname = usePathname();
         <Table.Cell>{patient?.email}</Table.Cell>
         <Table.Cell>{patient?.clinic}</Table.Cell>
        <Table.Cell>
-                      <button  className="px-2 py-1 bg-blue-500 text-white font-bold rounded-lg">
-                      Edit
+       <button onClick={()=>handleUpdate(patient?._id, patient?.name, orderRcpt[0]?._id, pathname)} className="px-2 py-1 bg-blue-500 text-white font-bold rounded-lg">
+       Add
                       </button>
                     </Table.Cell>
        <Table.Cell>
-       <button onClick={()=>handleUpdate(patient?._id, patient?.name, orderRcpt[0]?._id, pathname)} className="px-2 py-1 bg-blue-500 text-white font-bold rounded-lg">
-       Add
+                      <button onClick={()=>CancelRef(patient?._id,  pathname)}  className="px-2 py-1 bg-red-500 text-white font-bold rounded-lg">
+                      Remove
                       </button>
                     </Table.Cell>
        

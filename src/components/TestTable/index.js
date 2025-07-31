@@ -18,6 +18,8 @@ const TestTable=({tests, orderRcpt, slug})=>{
     const [item, setItem] = useState([...initialTests])
     const [code, setCode]= useState('')
 
+
+    
     useEffect(()=>{
       if(code!=='')setItem(initialTests)
     },[code])
