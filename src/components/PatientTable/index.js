@@ -26,8 +26,7 @@ useEffect(()=>{
   const getSlug=()=>{
   const slg = JSON.parse(localStorage.getItem('slug'))
 setSlug(slg)
-console.log(slug)
-console.log(user,'ptable')
+
   }
   getSlug()
 })
@@ -47,9 +46,15 @@ console.log(user,'ptable')
  
     const [item, setItem] = useState([...initialTests])
     const [code, setCode]= useState('')
+    const [show, setShow]= useState(false)
 
     useEffect(()=>{
-      if( code !=='' )setItem(initialTests)
+      // if( code !=='' )setItem(initialTests)
+        if (code && code.length) {
+          setItem(items)
+        } else{
+          setItem(initialTests)
+        }
     },[code])
 
       const handleSearch = async(code) => {       
@@ -71,26 +76,30 @@ await updatePatient(id, path)
 
     return(
         <div className="max-h-[700px] w-full mt-3 overflow-y-scroll" >
-          <div className="flex justify-between items-center border border-gray-400 w-2/3 mb-2 mx-auto  pl-2 rounded-lg ">
+          <div className="flex justify-between items-center  w-4/5 mb-2 mx-auto  ">
+          <div className="flex justify-between items-center border border-gray-400 mx-auto  pl-2 rounded-lg ">
                    <input type="text" placeholder="Search Patient" 
                    onChange={(e)=>setCode(e.target.value)} 
                    name="code" className="p-2 outline-none focus:border-none "/>  
                    <button className="flex justify-between items-center bg-gray-400 p-2  rounded-r-lg"
                    onClick={()=>handleSearch(code)}> 
                     Search</button>  
+     
+                 </div>
+                     <button onClick={()=>replace(`/dashboard/${slug}/patient/new`)}  className="border border-gray-400 rounded-md bg-black text-white p-2">New Patient</button>
                  </div>
         <Table.Root layout="auto" variant="surface">
     <Table.Header>
       
       <Table.Row>
+        {show &&<Table.ColumnHeaderCell>Reg No.</Table.ColumnHeaderCell>}
         <Table.ColumnHeaderCell>Patient</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Age</Table.ColumnHeaderCell>
+       <Table.ColumnHeaderCell>Age</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Gender</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
+      {show &&   <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>}
         <Table.ColumnHeaderCell>Number</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+        {show &&<Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>}
         <Table.ColumnHeaderCell>Test</Table.ColumnHeaderCell>
-        <Table.ColumnHeaderCell>Reg No.</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Edit</Table.ColumnHeaderCell>
         <Table.ColumnHeaderCell>Delete</Table.ColumnHeaderCell>
       </Table.Row>
@@ -100,12 +109,13 @@ await updatePatient(id, path)
      {item && item?.map((patient) => (
               
       <Table.Row key={patient?._id}>
+      {show &&   <Table.Cell>{patient?.regNumber}</Table.Cell>}
         <Table.RowHeaderCell> {patient?.name}</Table.RowHeaderCell>
         <Table.Cell>{patient?.age}</Table.Cell>
         <Table.Cell>{patient?.gender}</Table.Cell>
-        <Table.Cell>{patient?.address}</Table.Cell>
+       {show &&  <Table.Cell>{patient?.address}</Table.Cell>}
         <Table.Cell>{patient?.number}</Table.Cell>
-        <Table.Cell>{patient?.email}</Table.Cell>
+       {show &&  <Table.Cell>{patient?.email}</Table.Cell>}
        <Table.Cell>
                      
                       <form action={formAction}>
@@ -121,7 +131,6 @@ await updatePatient(id, path)
                       </button>
                           </form>
                     </Table.Cell>
-        <Table.Cell>{patient?.regNumber}</Table.Cell>
        <Table.Cell>
        
           <button   className="p-2  bg-blue-500 text-white font-bold rounded-lg" onClick={()=>replace(`/dashboard/${slug}/patient?id=${patient._id}`)}>

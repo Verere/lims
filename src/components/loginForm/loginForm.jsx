@@ -1,7 +1,7 @@
 "use client";
 
 import { authenticate } from "@/actions";
-import { fetchUser } from "@/actions/fetch";
+import { fetchUser, currentUser } from "@/actions/fetch";
 import { GlobalContext } from "@/context";
 import { useContext, useEffect, useState } from "react";
 import { useFormState } from "react-dom";
@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 const LoginForm = () => {
    const [state, formAction, Pending] = useFormState(authenticate, {});
 const [loading, setLoading]= useState(false)
-    const {location,user, setUser} = useContext(GlobalContext)
+    const {user, setUser} = useContext(GlobalContext)
 const [email, setEmail]= useState("")
 
   useEffect(()=>{
@@ -26,11 +26,12 @@ getState()
   },[state])
 
 const getUser = async()=>{
+  setUser([])
   setLoading(true)
-  const userN = await fetchUser(email );
+  const userN = await currentUser(email );
   setUser(userN)
-  console.log('u', user)
-    // localStorage.setItem('user', JSON.stringify(userN))
+  console.log('u', user, userN)
+   localStorage.setItem('user', JSON.stringify(userN))
 }
 
   return (

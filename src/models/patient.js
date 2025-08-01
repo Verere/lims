@@ -11,15 +11,12 @@ const PatientSchema = new mongoose.Schema({
     },
     age: {
         type: Number,
-        required: true,
     },
     address: {
         type: String,
-        required: true
     },   
     gender: {
         type: String,
-        required: true
     },   
     number: {
         type: Number        

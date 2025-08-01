@@ -21,7 +21,7 @@ export default function GlobalState({ children }) {
   const [isAuthUser, setIsAuthUser] = useState(false);
   const [isAdminView, setIsAdminView] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
   const [files, setFiles] = useState([]);
   const [hotel, setHotel] = useState([]);
   const [CanOrders, setCanOrders] = useState([]);
@@ -65,16 +65,16 @@ useEffect(() => {
   setUserToState()
 }, [])
 
-useEffect(() => {
-  const setSlotToState = () => {
+// useEffect(() => {
+//   const setSlotToState = () => {
 
-    setUser (
-      localStorage.getItem('slug')
-      ? JSON.parse(localStorage.getItem('slug')) : null
-    )
-  }
-  setSlotToState()
-}, [])
+//     setUser (
+//       localStorage.getItem('slug')
+//       ? JSON.parse(localStorage.getItem('slug')) : null
+//     )
+//   }
+//   setSlotToState()
+// }, [])
 
 
 

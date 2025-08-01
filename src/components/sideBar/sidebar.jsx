@@ -36,7 +36,7 @@ const Sidebar = forwardRef(({showNav, setShowNav, slug}, ref, searchParams) => {
         },     
         {
           title: "New Patient",
-          path: `/dashboard/${slug}/patient`,
+          path: `/dashboard/${slug}/patient/new`,
           icon: <MdShoppingBag />,
         } ,     
           
@@ -61,7 +61,12 @@ const Sidebar = forwardRef(({showNav, setShowNav, slug}, ref, searchParams) => {
           path: `/dashboard/${slug}/clinic`,
           icon: <MdShoppingBag />,
             
-        } ,  
+        } , 
+         {
+          title: "Patient Lists",
+          path: `/dashboard/${slug}/patient`,
+          icon: <GoListOrdered />,
+        },   
         {
           title: "Reports",
           path: `/dashboard/${slug}/reports`,

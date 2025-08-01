@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { auth, signOut } from "@/auth";
 
 const MainNav=()=>{
     return(
